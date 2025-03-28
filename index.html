@@ -1,232 +1,248 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Enjoy this interactive sliding puzzle game! Choose a level and solve the puzzle by arranging the numbers in the correct order.">
-    <meta name="keywords" content="Sliding Puzzle, Number Puzzle, Brain Game, HTML Game, Puzzle Game">
-    <meta name="author" content="Akshay Thakor">
-    <!-- Google AdSense Script -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Brain Boost Sliding Puzzle - Fun & Challenging!</title>  <style>  
+    * {  
+        margin: 0;  
+        padding: 0;  
+        box-sizing: border-box;  
+    }  
 
-    <title>Brain Boost Sliding Puzzle - Fun & Challenging!</title>
+    body {  
+        text-align: center;  
+        font-family: 'Arial', sans-serif;  
+        background: linear-gradient(to right, #ff9a9e, #fad0c4);  
+        display: flex;  
+        flex-direction: column;  
+        justify-content: center;  
+        align-items: center;  
+        height: 100vh;  
+    }  
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    #main-container {  
+        display: flex;  
+        flex-direction: column;  
+        align-items: center;  
+        justify-content: center;  
+        transition: filter 0.3s;  
+    }  
 
-        body {
-            text-align: center;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to right, #ff9a9e, #fad0c4);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+    /* Blur effect when win box appears */  
+    .blur {  
+        filter: blur(3px);  
+        pointer-events: none;  
+    }  
 
-        #main-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+    #game-container {  
+        display: none;  
+        margin: auto;  
+    }  
 
-        #game-container {
-            display: none;
-            margin: auto;
-        }
+    #level-selection {  
+        padding: 20px;  
+        background: rgba(0, 0, 0, 0.2);  
+        border-radius: 10px;  
+        display: inline-block;  
+        text-align: center;  
+    }  
 
-        #level-selection {
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            display: inline-block;
-            text-align: center;
-        }
+    #game-board {  
+        display: grid;  
+        gap: 5px;  
+        margin: 20px auto;  
+        background: rgba(255, 255, 255, 0.2);  
+        padding: 15px;  
+        border-radius: 10px;  
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);  
+    }  
 
-        #game-board {
-            display: grid;
-            gap: 5px;
-            margin: 20px auto;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-        }
+    .tile {  
+        display: flex;  
+        align-items: center;  
+        justify-content: center;  
+        font-size: 22px;  
+        font-weight: bold;  
+        width: 70px;  
+        height: 70px;  
+        border-radius: 8px;  
+        cursor: pointer;  
+        background: #ffcc5c;  
+        color: #2d2d2d;  
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);  
+        transition: transform 0.2s, background 0.3s;  
+    }  
 
-        .tile {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            font-weight: bold;
-            width: 70px;
-            height: 70px;
-            border-radius: 8px;
-            cursor: pointer;
-            background: #ffcc5c;
-            color: #2d2d2d;
-            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s, background 0.3s;
-        }
+    .tile:hover {  
+        transform: scale(1.05);  
+        background: #ffb74d;  
+    }  
 
-        .tile:hover {
-            transform: scale(1.05);
-            background: #ffb74d;
-        }
+    .empty {  
+        background: transparent;  
+        box-shadow: none;  
+        cursor: default;  
+    }  
 
-        .empty {
-            background: transparent;
-            box-shadow: none;
-            cursor: default;
-        }
+    button {  
+        margin: 10px;  
+        padding: 12px 20px;  
+        font-size: 18px;  
+        font-weight: bold;  
+        cursor: pointer;  
+        border: none;  
+        border-radius: 5px;  
+        background: #ff6f61;  
+        color: white;  
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);  
+        transition: 0.3s;  
+    }  
 
-        button {
-            margin: 10px;
-            padding: 12px 20px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background: #ff6f61;
-            color: white;
-            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-            transition: 0.3s;
-        }
+    button:hover {  
+        background: #ff3b3b;  
+        transform: scale(1.1);  
+    }  
 
-        button:hover {
-            background: #ff3b3b;
-            transform: scale(1.1);
-        }
+    h2 {  
+        font-size: 24px;  
+        margin-bottom: 10px;  
+    }  
 
-        h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
+    /* Winning Box */  
+    #win-box {  
+        position: fixed;  
+        top: 50%;  
+        left: 50%;  
+        transform: translate(-50%, -50%);  
+        background: white;  
+        padding: 20px;  
+        border-radius: 10px;  
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);  
+        display: none;  
+        z-index: 100;  
+    }  
 
-        /* Ad Container */
-        .ad-container {
-            margin-top: 15px;
-        }
-    </style>
-</head>
-<body>
-<div id="main-container">
-    <!-- AdMob Banner Ad -->
-    <div class="ad-container">
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-            data-ad-slot="YYYYYYYYYY"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
+    #win-box h2 {  
+        font-size: 26px;  
+        color: #333;  
+        margin-bottom: 15px;  
+    }  
 
-    <div id="level-selection">
-        <h2>🎮 Select Your Level</h2>
-        <select id="level">
-            <option value="3">Easy (3x3)</option>
-            <option value="4" selected>Medium (4x4)</option>
-        </select>
-        <br><br>
-        <button onclick="startGame()">Start Game</button>
-    </div>
+    #win-box button {  
+        background: #4CAF50;  
+    }  
 
-    <div id="game-container">
-        <h2>🧩 Brain Boost Sliding Puzzle</h2>
-        <div id="game-board"></div>
-        <button onclick="shuffleTiles()">🔀 Shuffle</button>
-        <button onclick="goBack()">🔙 Back</button>
+    #win-box button:hover {  
+        background: #45a049;  
+    }  
+</style>
 
-        <!-- Another Ad Below Game -->
-        <div class="ad-container">
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                data-ad-slot="ZZZZZZZZZZ"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-    </div>
+</head>  
+<body>  
+<div id="main-container">  
+    <div id="level-selection">  
+        <h2>🎮 Select Your Level</h2>  
+        <select id="level">  
+            <option value="3">Easy (3x3)</option>  
+            <option value="4" selected>Medium (4x4)</option>  
+        </select>  
+        <br><br>  
+        <button onclick="startGame()">Start Game</button>  
+    </div>  <div id="game-container">  
+    <h2>🧩 Brain Boost Sliding Puzzle</h2>  
+    <div id="game-board"></div>  
+    <button onclick="shuffleTiles()">🔀 Shuffle</button>  
+    <button onclick="goBack()">🔙 Back</button>  
 </div>
 
-<script>
-    function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-    }
-
-    let board = [];
-    let gridSize = 4;
-    const gameBoard = document.getElementById("game-board");
-
-    function startGame() {
-        gridSize = parseInt(document.getElementById("level").value);
-        document.getElementById("level-selection").style.display = "none";
-        document.getElementById("game-container").style.display = "block";
-        initBoard(true);
-    }
-
-    function goBack() {
-        document.getElementById("game-container").style.display = "none";
-        document.getElementById("level-selection").style.display = "block";
-    }
-
-    function initBoard(shuffleBoard = false) {
-        gameBoard.style.gridTemplateColumns = `repeat(${gridSize}, 75px)`;
-        gameBoard.style.gridTemplateRows = `repeat(${gridSize}, 75px)`;
-        gameBoard.style.width = `${gridSize * 80}px`;
-
-        if (shuffleBoard) {
-            let numbers = [...Array(gridSize * gridSize - 1).keys()].map(n => n + 1);
-            numbers.push("");
-            shuffle(numbers);
-            board = numbers;
-        }
-
-        gameBoard.innerHTML = "";
-
-        board.forEach((num, index) => {
-            let tile = document.createElement("div");
-            tile.classList.add("tile");
-
-            if (num === "") {
-                tile.classList.add("empty");
-            } else {
-                tile.innerText = num;
-                tile.addEventListener("click", () => moveTile(index));
-            }
-            gameBoard.appendChild(tile);
-        });
-    }
-
-    function moveTile(index) {
-        let emptyIndex = board.indexOf("");
-        let validMoves = [emptyIndex - 1, emptyIndex + 1, emptyIndex - gridSize, emptyIndex + gridSize];
-
-        if (validMoves.includes(index)) {
-            [board[index], board[emptyIndex]] = [board[emptyIndex], board[index]];
-            initBoard(false);
-        }
-    }
-
-    function shuffleTiles() {
-        initBoard(true);
-    }
-</script>
-</body>
-</html>
+</div>  <!-- Winning Box (Initially Hidden) -->  <div id="win-box">  
+    <h2>🏆 Congratulations! You Win! 🎉</h2>  
+    <button onclick="hideWinBox()">Play Next</button>  
+</div>  <script>  
+    function shuffle(array) {  
+        for (let i = array.length - 1; i > 0; i--) {  
+            let j = Math.floor(Math.random() * (i + 1));  
+            [array[i], array[j]] = [array[j], array[i]];  
+        }  
+    }  
+  
+    let board = [];  
+    let gridSize = 4;  
+    const gameBoard = document.getElementById("game-board");  
+  
+    function startGame() {  
+        gridSize = parseInt(document.getElementById("level").value);  
+        document.getElementById("level-selection").style.display = "none";  
+        document.getElementById("game-container").style.display = "block";  
+        initBoard(true);  
+    }  
+  
+    function goBack() {  
+        document.getElementById("game-container").style.display = "none";  
+        document.getElementById("level-selection").style.display = "block";  
+    }  
+  
+    function initBoard(shuffleBoard = false) {  
+        gameBoard.style.gridTemplateColumns = `repeat(${gridSize}, 75px)`;  
+        gameBoard.style.gridTemplateRows = `repeat(${gridSize}, 75px)`;  
+        gameBoard.style.width = `${gridSize * 80}px`;  
+  
+        if (shuffleBoard) {  
+            let numbers = [...Array(gridSize * gridSize - 1).keys()].map(n => n + 1);  
+            numbers.push("");  
+            shuffle(numbers);  
+            board = numbers;  
+        }  
+  
+        gameBoard.innerHTML = "";  
+  
+        board.forEach((num, index) => {  
+            let tile = document.createElement("div");  
+            tile.classList.add("tile");  
+  
+            if (num === "") {  
+                tile.classList.add("empty");  
+            } else {  
+                tile.innerText = num;  
+                tile.addEventListener("click", () => moveTile(index));  
+            }  
+            gameBoard.appendChild(tile);  
+        });  
+  
+        checkWin(); // Check if the game is won  
+    }  
+  
+    function moveTile(index) {  
+        let emptyIndex = board.indexOf("");  
+        let validMoves = [emptyIndex - 1, emptyIndex + 1, emptyIndex - gridSize, emptyIndex + gridSize];  
+  
+        if (validMoves.includes(index)) {  
+            [board[index], board[emptyIndex]] = [board[emptyIndex], board[index]];  
+            initBoard(false);  
+        }  
+    }  
+  
+    function shuffleTiles() {  
+        initBoard(true);  
+    }  
+  
+    function checkWin() {  
+        let correctOrder = [...Array(gridSize * gridSize - 1).keys()].map(n => n + 1).concat("");  
+        if (JSON.stringify(board) === JSON.stringify(correctOrder)) {  
+            showWinBox();  
+        }  
+    }  
+  
+    function showWinBox() {  
+        document.getElementById("main-container").classList.add("blur");  
+        document.getElementById("win-box").style.display = "block";  
+    }  
+  
+    function hideWinBox() {  
+        document.getElementById("main-container").classList.remove("blur");  
+        document.getElementById("win-box").style.display = "none";  
+        startGame();  
+    }  
+</script>  
+</body>  
+</html>  
