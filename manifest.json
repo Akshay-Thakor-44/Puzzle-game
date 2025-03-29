@@ -1,0 +1,20 @@
+{
+  "name": "Brain Boost Sliding Puzzle",
+  "short_name": "PuzzleGame",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ff9a9e",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "300x310",
+      "type": "image/png"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
