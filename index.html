@@ -7,6 +7,7 @@
     <meta name="keywords" content="sliding puzzle, number puzzle, brain game, tile puzzle, logic game, fun puzzle, brain teaser, online game">
     <meta name="author" content="Akshay Thakor">
     <meta name="robots" content="index, follow">  
+    <link rel="manifest" href="manifest.json">
     <title>Brain Boost Sliding Puzzle - Fun & Challenging!</title>  <style>  
     * {  
         margin: 0;  
@@ -165,6 +166,12 @@
     <button onclick="hideWinBox()">Play Next</button>  
 </div> 
     <script>  
+        if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+    .then(() => console.log("Service Worker Registered"))
+    .catch(error => console.log("Service Worker Registration Failed", error));
+        }
+        
     function shuffle(array) {  
         for (let i = array.length - 1; i > 0; i--) {  
             let j = Math.floor(Math.random() * (i + 1));  
